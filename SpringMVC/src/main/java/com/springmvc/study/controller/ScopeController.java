@@ -6,7 +6,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
@@ -57,6 +59,21 @@ public class ScopeController {
     public String testModelMap(ModelMap modelMap) {
         modelMap.addAttribute("testRequestScope", "hello,ModelMap");
         System.out.println(modelMap);
+        return "success";
+    }
+
+    // 向session域共享数据
+    @RequestMapping("/testSession")
+    public String testSession(HttpSession session) {
+        session.setAttribute("testSessionScope", "hello, session");
+        return "success";
+    }
+
+    // 向application域共享数据
+    @RequestMapping("/testApplication")
+    public String testApplication(HttpSession session) {
+        ServletContext application = session.getServletContext();
+        application.setAttribute("testApplicationScope", "hello, application");
         return "success";
     }
 }
